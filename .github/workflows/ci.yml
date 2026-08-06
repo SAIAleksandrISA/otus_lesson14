@@ -1,0 +1,42 @@
+name: C++ CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup C++ Environment
+      uses: actions/setup-cpp@v1
+
+    - name: Configure CMake Project
+      run: |
+        echo "Configuring CMake..."
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_STANDARD=17 \
+                 -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+                 -DCMAKE_CXX_EXTENSIONS=OFF \
+                 -DCMAKE_BUILD_TYPE=Release # Используем Release сборку для CI
+        echo "CMake configuration done."
+
+    - name: Build Project
+      run: |
+        echo "Building project..."
+        cd build
+        cmake --build . --config Release # Собираем Release конфигурацию
+        echo "Build complete."
+
+    - name: Run Executable
+      run: |
+        echo "Running the executable..."
+        ./taskqueue
+      working-directory: ./build
