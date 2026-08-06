@@ -1,6 +1,6 @@
 #pragma once
-#include "SafeQueue.hpp"
-#include "Task.hpp"
+#include "safequeue.hpp"
+#include "task.hpp"
 
 // Объявления функций
 void producer(SafeQueue<Task>& q);
