@@ -1,6 +1,6 @@
 #include "safequeue.hpp"
-#include "Task.hpp"
-#include "Workers.hpp"
+#include "task.hpp"
+#include "workers.hpp"
 #include <iostream>
 #include <thread>
 
