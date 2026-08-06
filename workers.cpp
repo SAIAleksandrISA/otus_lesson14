@@ -26,5 +26,6 @@ void consumer(SafeQueue<Task>& q)
         std::this_thread::sleep_for(std::chrono::milliseconds(t.time_ms));
         std::cout << "[Consumer] Done: " << t.name << std::endl;
     }
+
     std::cout << "[Consumer] Empty, exit." << std::endl;
 }
