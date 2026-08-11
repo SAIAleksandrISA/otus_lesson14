@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "safepriorityqueue.hpp"
-#include "Task.hpp"
+#include "task.hpp"
 
 void test_priority_logic() 
 {
