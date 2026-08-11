@@ -5,6 +5,9 @@ project(taskqueue VERSION 1.0.0 LANGUAGES CXX)
 find_package(Threads REQUIRED)
 
 add_executable(taskqueue main.cpp workers.cpp)
+add_executable(test_priority test_priority.cpp)
+add_executable(test_stress test_stress.cpp)
+add_executable(test_perf test_perf.cpp)
 
 target_link_libraries(taskqueue PRIVATE Threads::Threads)
 
