@@ -1,7 +1,7 @@
 #pragma once
-#include "safequeue.hpp"
+#include "isafequeue.hpp"
 #include "task.hpp"
 
 // Объявления функций
-void producer(SafeQueue<Task>& q);
-void consumer(SafeQueue<Task>& q);
+void producer(ISafeQueue<Task>& q);
+void consumer(ISafeQueue<Task>& q);

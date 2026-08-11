@@ -2,10 +2,11 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <vector>
 #include "isafequeue.hpp"
 
 template <typename T>
-class SafeQueue : public ISafeQueue<T>
+class SafePriorityQueue : public ISafeQueue<T>
 {
 public:
     void push(T value) override
@@ -27,7 +28,8 @@ public:
             return false;
         }
 
-        value = std::move(m_queue.front());
+        // Используем const_cast для извлечения элемента из priority_queue
+        value = std::move(const_cast<T&>(m_queue.top()));
         m_queue.pop();
         return true;
     }
@@ -42,7 +44,7 @@ public:
     }
 
 private:
-    std::queue<T> m_queue;
+    std::priority_queue<T> m_queue;
     std::mutex m_mutex;
     std::condition_variable m_cond;
     bool m_finished = false;
