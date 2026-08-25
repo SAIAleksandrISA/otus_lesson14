@@ -11,26 +11,39 @@
 
 int main()
 {
-    std::unique_ptr<ISafeQueue<Task>> taskQueue = std::make_unique<SafePriorityQueue<Task>>();
+    try
+    {
+        std::unique_ptr<ISafeQueue<Task>> taskQueue;
+        int nSwitch = 0;
+        if (nSwitch == 0)
+            taskQueue = std::make_unique<SafePriorityQueue<Task>>();
+        else
+            taskQueue = std::make_unique<SafeQueue<Task>>();
 
-    const int nProducers = 2;
-    const int nConsumers = 4;
+        const int nProducers = 2;
+        const int nConsumers = 4;
 
-    std::vector<std::thread> producers;
-    std::vector<std::thread> consumers;
+        std::vector<std::thread> producers;
+        std::vector<std::thread> consumers;
 
-    for (int i = 0; i < nProducers; ++i)
-        producers.emplace_back(producer, std::ref(*taskQueue));
+        for (int i = 0; i < nProducers; ++i)
+            producers.emplace_back(producer, std::ref(*taskQueue));
 
-    for (int i = 0; i < nConsumers; ++i)
-        consumers.emplace_back(consumer, std::ref(*taskQueue));
+        for (int i = 0; i < nConsumers; ++i)
+            consumers.emplace_back(consumer, std::ref(*taskQueue));
 
-    for (auto& t : producers)
-        t.join();
+        for (auto& t : producers)
+            t.join();
 
-    taskQueue->finish();
+        taskQueue->finish();
 
-    for (auto& t : consumers)
-        t.join();
+        for (auto& t : consumers)
+            t.join();
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
