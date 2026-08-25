@@ -11,12 +11,7 @@
 
 int main()
 {
-    std::unique_ptr<ISafeQueue<Task>> taskQueue;
-    int nSwitch = 0;
-    if (nSwitch == 0)
-        taskQueue = std::make_unique<SafePriorityQueue<Task>>();
-    else
-        taskQueue = std::make_unique<SafeQueue<Task>>();
+    std::unique_ptr<ISafeQueue<Task>> taskQueue = std::make_unique<SafePriorityQueue<Task>>();
 
     const int nProducers = 2;
     const int nConsumers = 4;
