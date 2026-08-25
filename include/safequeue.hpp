@@ -20,12 +20,10 @@ public:
     bool pop(T& value) override
     {
         std::unique_lock<std::mutex> lock(m_mutex);
-        m_cond.wait(lock, [this] { return !m_queue.empty() || m_finished; });
+        m_cond.wait(lock, [this] { return !m_queue.empty() || m_finished.load(); });
 
         if (m_queue.empty() && m_finished)
-        {
             return false;
-        }
 
         value = std::move(m_queue.front());
         m_queue.pop();
@@ -34,10 +32,8 @@ public:
 
     void finish() override
     {
-        {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_finished = true;
-        }
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_finished.store(true);
         m_cond.notify_all();
     }
 
@@ -45,5 +41,5 @@ private:
     std::queue<T> m_queue;
     std::mutex m_mutex;
     std::condition_variable m_cond;
-    bool m_finished = false;
+    std::atomic<bool> m_finished{ false };
 };

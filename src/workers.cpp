@@ -13,8 +13,6 @@ void producer(ISafeQueue<Task>& q)
         q.push(t);
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
-    q.finish();
-    std::cout << "[Producer] Finish." << std::endl;
 }
 
 void consumer(ISafeQueue<Task>& q)
