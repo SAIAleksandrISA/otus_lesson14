@@ -4,12 +4,17 @@
 #include <string>
 #include <chrono>
 
-void producer(ISafeQueue<Task>& q)
+void producer(ISafeQueue<Task>& q, int producerId)
 {
     for (int i = 1; i <= 5; ++i)
     {
-        Task t = { i, "Task_" + std::to_string(i), 500, i%3 };
-        std::cout << "[Producer] Create: " << t.name << std::endl;
+        int uniqueId = producerId * 10 + i;
+        int priority = i % 3;
+        Task t = { uniqueId, "Task_" + std::to_string(uniqueId), 500, priority };
+
+        std::cout << "[Producer " << producerId << "] Create: " << t.name
+            << " Priority: " << t.priority << std::endl;
+
         q.push(t);
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }

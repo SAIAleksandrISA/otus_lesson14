@@ -1,24 +1,32 @@
 #include <iostream>
-#include <chrono>
-#include "safequeue.hpp"
+#include <vector>
+#include "safepriorityqueue.hpp"
 #include "task.hpp"
 
-int main() 
+int main()
 {
-    SafeQueue<Task> q;
-    const int N = 50000;
+    SafePriorityQueue<Task> q;
 
-    auto start = std::chrono::high_resolution_clock::now();
+    q.push({ 1, "Low", 500, 1 });
+    q.push({ 2, "High", 500, 10 });
+    q.push({ 3, "Medium", 500, 5 });
 
-    for (int i = 0; i < N; ++i) q.push({ i, "T", 0, 0 });
     q.finish();
 
     Task t;
-    while (q.pop(t));
+    std::vector<int> results;
+    while (q.pop(t)) {
+        results.push_back(t.priority);
+        std::cout << "Popped: " << t.name << " with priority: " << t.priority << std::endl;
+    }
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end - start;
+    if (results[0] == 10 && results[1] == 5 && results[2] == 1)
+        std::cout << "Priority test passed!" << std::endl;
+    else
+    {
+        std::cerr << "Priority test failed!" << std::endl;
+        return 1;
+    }
 
-    std::cout << "Processed " << N << " tasks in " << diff.count() << " seconds." << std::endl;
     return 0;
 }

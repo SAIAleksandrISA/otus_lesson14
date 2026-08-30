@@ -27,7 +27,7 @@ int main()
         std::vector<std::thread> consumers;
 
         for (int i = 0; i < nProducers; ++i)
-            producers.emplace_back(producer, std::ref(*taskQueue));
+            producers.emplace_back(producer, std::ref(*taskQueue), i);
 
         for (int i = 0; i < nConsumers; ++i)
             consumers.emplace_back(consumer, std::ref(*taskQueue));
@@ -39,6 +39,9 @@ int main()
 
         for (auto& t : consumers)
             t.join();
+
+        if (!taskQueue->empty()) 
+            std::cout << "Warning: Queue is not empty!" << std::endl;
     }
     catch (const std::exception& e)
     {

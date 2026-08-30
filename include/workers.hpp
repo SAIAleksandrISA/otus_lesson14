@@ -3,5 +3,5 @@
 #include "task.hpp"
 
 // Объявления функций
-void producer(ISafeQueue<Task>& q);
+void producer(ISafeQueue<Task>& q, int producerId);
 void consumer(ISafeQueue<Task>& q);

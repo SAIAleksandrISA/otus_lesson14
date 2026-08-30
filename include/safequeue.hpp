@@ -9,6 +9,12 @@ template <typename T>
 class SafeQueue : public ISafeQueue<T>
 {
 public:
+    ~SafeQueue() override
+    {
+        finish();
+    }
+
+public:
     void push(T value) override
     {
         {
@@ -38,9 +44,20 @@ public:
         m_cond.notify_all();
     }
 
+    bool empty() const override 
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_queue.empty();
+    }
+
+    bool is_finished() const override 
+    {
+        return m_finished.load();
+    }
+
 private:
     std::queue<T> m_queue;
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     std::condition_variable m_cond;
     std::atomic<bool> m_finished{ false };
 };
