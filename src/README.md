@@ -8,7 +8,7 @@
 | :--- | :--- | :--- |
 | **Хранение данных любого типа** | Использование C++ шаблонов `template <typename T>`. | `safequeue.hpp`, `safepriorityqueue.hpp` |
 | **Потокобезопасность** | Защита данных через `std::mutex`, `std::unique_lock`, `std::atomic`. | `stress_test.cpp`, `test_concurrency.cpp` |
-| **Многопоточные режимы (Multi-P/Multi-C)** | Архитектура поддерживает N продюсеров и M потребителей. | `main.cpp` (параметризуемые потоки) |
+| **Многопоточные режимы (Multi-P/Multi-C)** | Архитектура поддерживает N продюсеров и M потребителей. | `main.cpp` |
 | **Приоритезация данных** | Реализация `SafePriorityQueue` на базе `std::vector` + heap-алгоритмы. | `test_priority_logic.cpp` |
 | **Тестирование** | Набор юнит-тестов и стресс-тест производительности. | `test_priority_logic` `stress_test` `test_concurrency`|
 
